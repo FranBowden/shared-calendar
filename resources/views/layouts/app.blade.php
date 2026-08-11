@@ -15,14 +15,26 @@
         <div class="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
             <a href="{{ route('home') }}" class="flex items-center gap-2 font-semibold text-lg">
                 <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600 text-white">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                    <x-icon name="calendar" size="h-5 w-5" />
                 </span>
                 Together
             </a>
             <div class="flex items-center gap-3">
-                <a href="{{ route('calendar') }}" class="text-sm font-medium text-slate-600 hover:text-slate-900">Calendar</a>
-                <a href="{{ route('login') }}" class="text-sm font-medium text-slate-600 hover:text-slate-900">Log in</a>
-                <a href="{{ route('register') }}" class="inline-flex items-center rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-500">Sign up</a>
+                @auth
+                    <a href="{{ route('calendar') }}"
+                        class="text-sm font-medium text-slate-600 hover:text-slate-900">Calendar</a>
+                    <span class="text-sm text-slate-400">{{ auth()->user()->name }}</span>
+
+                    {{-- Logging out changes state, so it's a POST form rather than a link. --}}
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <x-button type="submit" variant="secondary">Log out</x-button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}"
+                        class="text-sm font-medium text-slate-600 hover:text-slate-900">Log in</a>
+                    <x-button as="a" href="{{ route('register') }}">Sign up</x-button>
+                @endauth
             </div>
         </div>
     </nav>
@@ -34,6 +46,8 @@
     <footer class="border-t border-slate-200 py-6 text-center text-sm text-slate-400">
         &copy; {{ date('Y') }} Together
     </footer>
+
+    @stack('scripts')
 </body>
 
 </html>
