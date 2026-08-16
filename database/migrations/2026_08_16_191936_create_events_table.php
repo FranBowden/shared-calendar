@@ -17,8 +17,13 @@ return new class extends Migration
             $table->string('title');
             $table->text('description')->nullable();
             $table->dateTime('starts_at');
-            $table->DateTime('ends_at')->nullable();
+            $table->dateTime('ends_at')->nullable();
             $table->timestamps();
         });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('events');
     }
 };

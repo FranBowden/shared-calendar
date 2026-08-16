@@ -20,4 +20,9 @@ return new class extends Migration
             $table->unique(['event_id', 'user_id']);
         });
     }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('event_user');
+    }
 };
